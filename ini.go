@@ -20,7 +20,6 @@ package ini
 import (
 	"os"
 	"regexp"
-	"runtime"
 	"strings"
 )
 
@@ -34,10 +33,6 @@ const (
 )
 
 var (
-	// LineBreak is the delimiter to determine or compose a new line.
-	// This variable will be changed to "\r\n" automatically on Windows at package init time.
-	LineBreak = "\n"
-
 	// Variable regexp pattern: %(variable)s
 	varPattern = regexp.MustCompile(`%\(([^)]+)\)s`)
 
@@ -58,12 +53,6 @@ var (
 )
 
 var inTest = len(os.Args) > 0 && strings.HasSuffix(strings.TrimSuffix(os.Args[0], ".exe"), ".test")
-
-func init() {
-	if runtime.GOOS == "windows" && !inTest {
-		LineBreak = "\r\n"
-	}
-}
 
 // LoadOptions contains all customized options used for load data source(s).
 type LoadOptions struct {
